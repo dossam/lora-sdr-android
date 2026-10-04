@@ -113,4 +113,4 @@ CONDA_ENV="pylorasdr"
 
 # Start rx script
 echo "Starting receiver"
-/home/$USER/miniconda3/envs/$CONDA_ENV/bin/python -u "${SCRIPT_DIR}/../src/lora_receiver.py" "${args[@]}"
+$HOME/miniforge3/envs/$CONDA_ENV/bin/python -u "${SCRIPT_DIR}/../src/lora_receiver.py" "${args[@]}"

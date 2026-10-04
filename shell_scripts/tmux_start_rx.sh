@@ -113,4 +113,4 @@ args+=(--addr "$addr")
 
 # Launch Ubuntu distro and start receiver 
 USERNAME=lorasdr
-pd login ubuntu --user ${USERNAME} "/home/$USERNAME/lora-sdr-android/shell_scripts/start_receiver.sh" "${args[@]}"
+pd login ubuntu --user ${USERNAME} -- "/home/$USERNAME/lora-sdr-android/shell_scripts/start_receiver.sh" "${args[@]}"
