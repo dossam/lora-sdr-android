@@ -7,6 +7,7 @@ This repository contains implementation files and instructions to run an SDR-bas
 ## Installation
 In addition to the source files of this repository, the receiver requires the `Termux` emulator and `rtl_tcp_andro`.
 
+#### Installation of required tools and setup of proot container
 - First install `Termux` from [F-Droid](https://f-droid.org/fr/packages/com.termux.api/). You might need to install F-droid first if not already installed.
 Do not install `Termux` from PlayStore, since it is outdated.
 
@@ -22,17 +23,17 @@ pkg update && pkg upgrade
 pkg install proot-distro git
 ```
 
-- Install an Ubuntu distribution inside a `proot` container:
+- Install an Ubuntu distribution inside a `proot` container
 ```
 pd install ubuntu
 ```
 
-- Start the container:
+- Start the container
 ```
 pd login ubuntu
 ```
 
-- Create a `lorasdr` user with a home directory and a `bash` shell:
+- Create a `lorasdr` user with a home directory and a `bash` shell
 ```
 useradd lorasdr
 mkdir /home/lorasdr
@@ -41,7 +42,7 @@ chsh -s /usr/bin/bash lorasdr
 ```
 
 #### Creation of a virtual environment and receiver setup
-- Install `conda` through `miniforge`: 
+- Install `conda` through `miniforge`
 ```
 su lorasdr
 cd $HOME
@@ -49,13 +50,13 @@ wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforg
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
 
-- Create a virtual environment with a `python` interpreter: 
+- Create a virtual environment with a `python` interpreter
 ```
 source .bashrc
 conda create -n pylorasdr python
 ```
 
-- Clone and install the `pylorasdr` library inside the virtual environment:  
+- Clone and install the `pylorasdr` library inside the virtual environment
 ```
 conda activate pylorasdr
 git clone https://github.com/dossam/pylorasdr
@@ -63,7 +64,7 @@ cd pylorasdr
 pip install .
 ```
 
-- Clone this repo:
+- Clone this repo
 ```
 cd ..
 git clone https://github.com/dossam/lora-sdr-android
@@ -96,6 +97,7 @@ exit
 chmod +x tmux_start_rx.sh
 ```
 
+#### Start the receiver
 - The receiver can now be started with
 ```
 ./tmux_start_rx.sh --port 12345 --freq 868100000 --sample-rate 250000
@@ -110,4 +112,4 @@ The script also support other optional parameters such as
 - `--netid`: network ID. Defaults to `18`. 
 - `--upchirps`: number of preamble upchirps.  Defaults to `8`.
 
- 
+With the current implementation, the receiver prints the information related to a received frame: uplink/downlink, the coding rate (CR), the estimated SNR, and the payload. The default behavior can be changed by registering a handler function with `lora_rx.register_frame_handler` in [src/lora_receiver.py](src/lora_receiver.py). For instance, it can be used to forward the received frame through a socket connection.
