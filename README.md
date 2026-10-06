@@ -8,7 +8,7 @@ This repository contains implementation files and instructions to run an SDR-bas
 In addition to the source files of this repository, the receiver requires the `Termux` emulator and `rtl_tcp_andro`.
 
 #### Installation of required tools and setup of proot container
-- First install `Termux` from [F-Droid](https://f-droid.org/fr/packages/com.termux.api/). You might need to install F-droid first if not already installed.
+- First install `Termux` from [F-Droid](https://f-droid.org/fr/packages/com.termux/). You might need to install F-droid first if not already installed.
 Do not install `Termux` from PlayStore, since it is outdated.
 
 - Install `rtl_tcp_andro` from [F-Droid](https://f-droid.org/fr/packages/marto.rtl_tcp_andro/).
@@ -18,14 +18,14 @@ Do not install `Termux` from PlayStore, since it is outdated.
 pkg update && pkg upgrade
 ``` 
 
-- Install `proot-distribution` and `git`:
+- Install `proot-distribution`, `git`, and `wget`:
 ```
-pkg install proot-distro git
+pkg install proot-distro git wget
 ```
 
 - Install an Ubuntu distribution inside a `proot` container
 ```
-pd install ubuntu
+pd install ubuntu:24.04
 ```
 
 - Start the container
@@ -41,11 +41,18 @@ chown lorasdr:lorasdr /home/lorasdr
 chsh -s /usr/bin/bash lorasdr
 ```
 
+- Exit the virtual environment
+```
+exit
+```
+- Login with the new user
+```
+pd login ubuntu --user lorasdr
+```
+
 #### Creation of a virtual environment and receiver setup
 - Install `conda` through `miniforge`
 ```
-su lorasdr
-cd $HOME
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
@@ -80,11 +87,6 @@ chmod +x shell_scripts/start_receiver.sh
 - Copy the `tmux_start_rx.sh` to Termux home folder.
 ```
 cp shell_scripts/tmux_start_rx.sh /data/data/com.termux/files/home/
-```
-
-- Logout the `lorasdr` user
-```
-exit
 ```
 
 - Exit the proot container, back to Termux
